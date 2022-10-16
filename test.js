@@ -3,8 +3,8 @@ const endpoints = [
     "https://wormhole-v2-mainnet-api.mcf.rocks/",
     "https://wormhole-v2-mainnet-api.chainlayer.network/",
     "https://wormhole-v2-mainnet-api.staking.fund/",
-    "https://wormhole-v2-mainnet-api.certus.one/",
-    "https://wormhole-v2-mainnet.01node.com/"
+    "https://wormhole-v2-mainnet-api.certus.one/"
+    // "https://wormhole-v2-mainnet.01node.com/"
 ]
 
 async function willFail(obj, usdval, chainId){
@@ -15,14 +15,18 @@ async function willFail(obj, usdval, chainId){
             return chainNotional["remainingAvailableNotional"] >= usdval;
         }
     }
+    return false;
 }
 
 async function testTransaction(usdval, chainId) {
+    let hasExceededCapacity = false;
     for(let i=0; i < endpoints.length; i++){
         let call = endpoints[i] + "v1/governor/available_notional_by_chain";
-        let res = await fetch(call);
-        console.log(await res.json())
+        let res = await(await fetch(call)).json();
+        let exceededCapacity = await willFail(res, usdval, chainId);
+        hasExceededCapacity = hasExceededCapacity || exceededCapacity;
     }
+    return hasExceededCapacity;
 }
 
 testTransaction(0,0).then(result => {
