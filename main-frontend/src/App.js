@@ -8,6 +8,7 @@ import Tab from '@mui/material/Tab'
 import { testTransaction } from './test.js'
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Starfield from './Starfield'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -107,32 +108,34 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Tabs
-        value={tabValue}
-        onChange={(e, newValue) => {
-          setTabValue(newValue)
-        }}
-        aria-label="basic tabs example"
-      >
-        <Tab label="Governance" id="governance-tab" />
-        <Tab label="Explorer" id="explorer-tab" />
-      </Tabs>
-      <div
-        className="body"
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          height: '90%',
-          width: '100%',
-          // backgroundImage:"url(/logo192.png)"
-        }}
-      >
-        {currentTab}
+    <Starfield>
+      <div className="App">
+        <Tabs
+          value={tabValue}
+          onChange={(e, newValue) => {
+            setTabValue(newValue)
+          }}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Governance" id="governance-tab" />
+          <Tab label="Explorer" id="explorer-tab" />
+        </Tabs>
+        <div
+          className="body"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            height: '90%',
+            width: '100%',
+            // backgroundImage:"url(/logo192.png)"
+          }}
+        >
+          {currentTab}
+        </div>
       </div>
-    </div>
+    </Starfield>
   )
 }
 
