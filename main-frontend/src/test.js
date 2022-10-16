@@ -1,3 +1,13 @@
+import {
+  createSpyRPCServiceClient,
+  subscribeSignedVAA,
+} from "@certusone/wormhole-spydk";
+
+import {
+  importCoreWasm,
+  parseTransferPayload,
+  setDefaultWasm,
+} from "@certusone/wormhole-sdk";
 const endpoints = [
     "https://wormhole.inotel.ro/",
     "https://wormhole-v2-mainnet-api.mcf.rocks/",
@@ -12,7 +22,28 @@ const config = {
     server: 'localhost',
     database: 'Master'
 };
+export async function tracker(data) {
+  for (let i = 0; i < 19; i++) {
+    data.push(0);
+  }
+  setDefaultWasm("node");
 
+  const { parse_vaa } = await importCoreWasm();
+  const client = createSpyRPCServiceClient("143.198.69.169:7073");
+  const stream = await subscribeSignedVAA(client, {});
+
+  stream.addListener("data", ({ vaaBytes }) => {
+  const parsedVAA = parse_vaa(vaaBytes);
+
+  parsedVAA.signatures.forEach(obj=> {
+    data[obj.guardian_index]+=1
+  })
+});
+stream.addListener("error", (error) => {
+  console.log(error);
+});
+
+};
 async function willFail(obj, usdval, chainId){
     let arr = obj["entries"]
     for (let i=0; i < arr.length; i++){
