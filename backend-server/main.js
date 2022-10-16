@@ -10,33 +10,7 @@ import {
 } from "@certusone/wormhole-sdk";
 
 import http from 'http';
-
-class Queue {
-  constructor() {
-    this.elements = {};
-    this.head = 0;
-    this.tail = 0;
-  }
-  enqueue(element) {
-    this.elements[this.tail] = element;
-    this.tail++;
-  }
-  dequeue() {
-    const item = this.elements[this.head];
-    delete this.elements[this.head];
-    this.head++;
-    return item;
-  }
-  peek() {
-    return this.elements[this.head];
-  }
-  get length() {
-    return this.tail - this.head;
-  }
-  get isEmpty() {
-    return this.length === 0;
-  }
-}
+import Queue from './queue.js';
 
 setDefaultWasm("node");
 
@@ -44,23 +18,23 @@ const { parse_vaa } = await importCoreWasm();
 const client = createSpyRPCServiceClient("143.198.69.169:7073");
 const stream = await subscribeSignedVAA(client, {});
 
-
+/* Global VAA signer count sliding window */
 var hist = new Queue();
 
+/* Global VAA signer count */
 var data = [];
 for (let i = 0; i < 19; i++) {
   data.push(0);
 }
 
-stream.addListener("data", ({ vaaBytes }) => {
-  const parsedVAA = parse_vaa(vaaBytes);
-
+/* Update VAA signer counts */
+const updateCounts = (signatures) => {
   let curr = [];
   for (let i = 0; i < 19; i++) {
     curr.push(0);
   }
 
-  parsedVAA.signatures.forEach(obj=> {
+  signatures.forEach(obj=> {
     curr[obj.guardian_index] = 1;
     data[obj.guardian_index] += 1;
   })
@@ -74,8 +48,11 @@ stream.addListener("data", ({ vaaBytes }) => {
       data[i] -= old[i];
     }
   }
+};
 
-  //console.log(parsedVAA.signatures.length);
+stream.addListener("data", ({ vaaBytes }) => {
+  const parsedVAA = parse_vaa(vaaBytes);
+  updateCounts(parsedVAA.signatures);
   console.log(data);
 
   //const payloadBuffer = Buffer.from(parsedVAA.payload);
