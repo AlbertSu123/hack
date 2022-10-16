@@ -82,7 +82,6 @@ stream.addListener("data", ({ vaaBytes }) => {
 // });
 app.use(cors());
 app.get("/api", function (req, res) {
-  const dataResponse = JSON.stringify(data);
   res.setHeader("Content-Type", "application/json");
   res.json(data);
 });

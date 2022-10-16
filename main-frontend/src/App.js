@@ -100,7 +100,7 @@ function App() {
 
   useEffect(() => {
     setInterval(() => {
-      fetch("/api")
+      fetch("http://143.198.69.169/api")
         .then((res) => res.json())
         // .then((data) => console.log(data));
         .then((data) => {
