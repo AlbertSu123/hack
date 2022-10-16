@@ -5,26 +5,18 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/TextField';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import {testTransaction,tracker} from './test.js';
+import {testTransaction} from './test.js';
 import React, { useState } from 'react';
-import * as Highcharts from "highcharts";
 
+import { makeStyles } from "@material-ui/core/styles";
 
-
-
-var data= [];
+const useStyles = makeStyles((theme) => ({
+  input: {
+    background: "rgba(255, 255, 255, 255)"
+  }
+}));
 
 function App() {
-  if(data.length==0){
-    tracker(data);
-  }
-
-
-
-
-
-
-
   const [status, setStatus] = useState(0);
   const [chainId, setChainId] = useState(1);
   const [notional, setNotional] = useState(0);
@@ -70,47 +62,7 @@ function App() {
       </div>
   }
   else if (tabValue ==1) {
-    Highcharts.chart('container', {
-   chart: {
-    type: 'column'
-   },
-  title: {
-    text: 'Data added'
-   },
- subtitle: {
-    text: 'Source: Wikipedia'
-  },
-  xAxis: {
-    type: 'category',
-    labels: {
-        rotation: -45,
-        style: {
-            fontSize: '13px',
-            fontFamily: 'Verdana, sans-serif'
-        }
-      }
-   },
-   yAxis: {
-    min: 0,
-    title: {
-        text: 'Population (millions)'
-    }
-   },
-legend: {
-    enabled: false
-},
-tooltip: {
-    pointFormat: 'Population in 2008: <b>{point.y:.1f} millions</b>'
-},
-series: [{
-    name: 'Population',
-    data: data,
-
- }]
-});
-    currentTab = <div>
-        <div id="container"></div>
-        </div>
+    currentTab = <Button>Explorer Coming Soon!!</Button>
   }
 
   return (
