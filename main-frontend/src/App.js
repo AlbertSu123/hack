@@ -56,6 +56,8 @@ function App() {
               md: 500,
             },
           }}
+          FSUBMIG
+          style={{ marginLeft: '40%' }}
         >
           <CardHeader
             title={'Hi'}
@@ -99,8 +101,9 @@ function App() {
             {' '}
             Submit Notional
           </Button>
+          <Divider></Divider>
+          <Button>{message} </Button>
         </Card>
-        {message}
       </div>
     )
   } else if (tabValue == 1) {
@@ -108,34 +111,45 @@ function App() {
   }
 
   return (
-    <Starfield>
-      <div className="App">
-        <Tabs
-          value={tabValue}
-          onChange={(e, newValue) => {
-            setTabValue(newValue)
-          }}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Governance" id="governance-tab" />
-          <Tab label="Explorer" id="explorer-tab" />
-        </Tabs>
-        <div
-          className="body"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            height: '90%',
-            width: '100%',
-            // backgroundImage:"url(/logo192.png)"
-          }}
-        >
-          {currentTab}
-        </div>
+    <div className="App">
+      <div
+        style={{
+          position: 'fixed',
+          width: '100%',
+          height: '100%',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        <Starfield />
       </div>
-    </Starfield>
+      <Tabs
+        value={tabValue}
+        onChange={(e, newValue) => {
+          setTabValue(newValue)
+        }}
+        aria-label="basic tabs example"
+      >
+        <Tab label="Governance" id="governance-tab" />
+        <Tab label="Explorer" id="explorer-tab" />
+      </Tabs>
+      <div
+        className="body"
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          height: '90%',
+          width: '100%',
+          // backgroundImage:"url(/logo192.png)"
+        }}
+      >
+        {currentTab}
+      </div>
+    </div>
   )
 }
 

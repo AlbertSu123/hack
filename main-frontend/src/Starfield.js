@@ -53,7 +53,7 @@ function euclidDist(x1, y1, x2, y2) {
 
 // Random timer for shooting stars in  milliseconds
 function getShootingStarTime() {
-  return Math.random() * 6000 + 5000
+  return Math.random() * 1000 + 2000
 }
 
 function getSSY(MB, x) {
@@ -66,7 +66,7 @@ const Starfield = () => {
 
   useEffect(() => {
     const colors = [theme.palette.primary.main, theme.palette.primary.light]
-    const bgColor = theme.palette.background.default
+    const bgColor = '#151520'
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     canvas.style.width = '100%'
