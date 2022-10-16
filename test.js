@@ -12,10 +12,12 @@ async function willFail(obj, usdval, chainId){
     for (let i=0; i < arr.length; i++){
         let chainNotional = arr[i];
         if (chainNotional["chainId"] == chainId){
-            return chainNotional["remainingAvailableNotional"] >= usdval;
+            let notionalExceeded = chainNotional["remainingAvailableNotional"] <= usdval;
+            let txNotionalExceeded = chainNotional["bigTransactionSize"] <= usdval
+            return notionalExceeded || txNotionalExceeded;
         }
     }
-    return false;
+    return true;
 }
 
 async function testTransaction(usdval, chainId) {
@@ -29,7 +31,9 @@ async function testTransaction(usdval, chainId) {
     return hasExceededCapacity;
 }
 
-testTransaction(0,0).then(result => {
+const usdval = 10; // 10 USD of value
+const chainId = 1; //Ethereum
+testTransaction(usdval, chainId).then(result => {
     console.log(result);
   }).catch(error => {
     console.log(error);
