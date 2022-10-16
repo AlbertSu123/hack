@@ -21,3 +21,4 @@ https://wormhole-v2-mainnet-api.chainlayer.network/v1/governor/available_notiona
 https://wormhole-v2-mainnet-api.staking.fund/v1/governor/available_notional_by_chain
 
 https://wormhole-v2-mainnet.01node.com/v1/governor/available_notional_by_chain
+
