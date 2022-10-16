@@ -6,6 +6,12 @@ const endpoints = [
     "https://wormhole-v2-mainnet-api.certus.one/"
     // "https://wormhole-v2-mainnet.01node.com/"
 ]
+const config = {
+    user: 'user',
+    password: 'pass',
+    server: 'localhost',
+    database: 'Master'
+};
 
 async function willFail(obj, usdval, chainId){
     let arr = obj["entries"]
@@ -20,7 +26,7 @@ async function willFail(obj, usdval, chainId){
     return true;
 }
 
-async function testTransaction(usdval, chainId) {
+export async function testTransaction(usdval, chainId) {
     let hasExceededCapacity = false;
     for(let i=0; i < endpoints.length; i++){
         let call = endpoints[i] + "v1/governor/available_notional_by_chain";
@@ -29,7 +35,7 @@ async function testTransaction(usdval, chainId) {
         hasExceededCapacity = hasExceededCapacity || exceededCapacity;
     }
     return hasExceededCapacity;
-}
+};
 
 const usdval = 10; // 10 USD of value
 const chainId = 1; //Ethereum
